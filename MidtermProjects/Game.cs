@@ -8,5 +8,6 @@ namespace MidtermProjects
 {
     class Game
     {
+        int cw = 0;
     }
 }
