@@ -14,20 +14,39 @@ namespace MidtermProjects
             Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
             string cat = Console.ReadLine();
             bool goAgain = true;
-           //makes sure the user puts in the right input 
+           //makes sure the user puts in the right input
+           //list cart imported from the cart class
+           //printagain = 0 
             while (goAgain) 
             {
+                //if printagain = 1 cw("Pick another category") takes in cat value and runs through again
                 if (cat.ToLower() == "toys" || cat.ToLower() == "toy")//shows toys
                 {
-                    goAgain = false;
+                    //show toys, ask if they would like to add any to cart 
+                    //while addtocart == true
+                    //ask if they would like to add anything else to cart 
+                    //outside the loop it asks if they want to go to another category
+                    //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
+                    goAgain = false;// if they are done adding items to the cart and would like to go to check out
                 }
                 else if (cat.ToLower() == "books" || cat.ToLower() == "book")//shows books
                 {
-                   goAgain = false;
+                    //show books, ask if they would like to add any to cart 
+                    //while addtocart == true
+                    //ask if they would like to add anything else to cart 
+                    //outside the loop it asks if they want to go to another category
+                    //if yes then  printagain = 1 and goAgain = true the program ask for user to input another catgory
+                    goAgain = false;// if they are done adding items to the cart and would like to go to check out
                 }
                 else if (cat.ToLower() == "games"|| cat.ToLower() == "game")//shows game
                 {
-                    goAgain = false;
+
+                    //show games, ask if they would like to add any to cart 
+                    //while addtocart == true
+                    //ask if they would like to add anything else to cart 
+                    //outside the loop it asks if they want to go to another category
+                    //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
+                    goAgain = false;// if they are done adding items to the cart and would like to go to check out
                 }
                 else //light validation
                 {
@@ -38,7 +57,8 @@ namespace MidtermProjects
                         goAgain = true;
                     }
                 }
-}
+            }
+            //checkout code 
         }
     }
 }
