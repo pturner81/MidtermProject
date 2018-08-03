@@ -23,40 +23,40 @@ namespace MidtermProjects
         //Add three methods to calculate total, tax, and payment due
        
     }
-    public static string ValidateString(string UserInput)
-    {
-        try
-        {
-            UserInput = UserInput.ToLower();
-            return (UserInput);
-        }
-        catch (FormatException e)
-        {
-            Console.WriteLine(e.Message);
-            return "0";
-        }
-        catch (Exception f)
-        {
-            Console.WriteLine(f.Message);
-            return "0";
-        }
-    }
-    public static int ValidateInt(string UserInput1)
-    {
-        try
-        {
-            int.Parse(UserInput1);
-            return (int.Parse(UserInput1));
-        }
-        catch (FormatException e)
-        {
-            Console.WriteLine(e.Message);
-            return 0;
-        }
-        catch (Exception f)
-        {
-            Console.WriteLine(f.Message);
-            return 0;
-        }
-    }
+    //public static string ValidateString(string UserInput)
+    //{
+    //    try
+    //    {
+    //        UserInput = UserInput.ToLower();
+    //        return (UserInput);
+    //    }
+    //    catch (FormatException e)
+    //    {
+    //        Console.WriteLine(e.Message);
+    //        return "0";
+    //    }
+    //    catch (Exception f)
+    //    {
+    //        Console.WriteLine(f.Message);
+    //        return "0";
+    //    }
+    //}
+    //public static int ValidateInt(string UserInput1)
+    //{
+    //    try
+    //    {
+    //        int.Parse(UserInput1);
+    //        return (int.Parse(UserInput1));
+    //    }
+    //    catch (FormatException e)
+    //    {
+    //        Console.WriteLine(e.Message);
+    //        return 0;
+    //    }
+    //    catch (Exception f)
+    //    {
+    //        Console.WriteLine(f.Message);
+    //        return 0;
+    //    }
+    //}
 }
