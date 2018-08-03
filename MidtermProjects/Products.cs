@@ -8,6 +8,7 @@ namespace MidtermProjects
 {
     class Products
     {
+
         #region Publics
         private string name;
         private string description;
@@ -78,5 +79,10 @@ namespace MidtermProjects
         }
 
   
+
+
+
+
+
     }
 }
