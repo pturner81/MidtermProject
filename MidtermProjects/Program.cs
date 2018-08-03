@@ -31,6 +31,8 @@ namespace MidtermProjects
                 }
                 else if (cat.ToLower() == "books" || cat.ToLower() == "book")//shows books
                 {
+                    
+
                     //show books, ask if they would like to add any to cart 
                     //while addtocart == true
                     //ask if they would like to add anything else to cart 
