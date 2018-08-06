@@ -12,7 +12,7 @@ namespace MidtermProjects
         static void Main(string[] args)
         {
             Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
-            string cat = ValidateString(Console.ReadLine());
+            string cat = Validators.ValidateString(Console.ReadLine());
             bool goAgain = true;
             //makes sure the user puts in the right input
             //list cart imported from the cart class
@@ -71,23 +71,6 @@ namespace MidtermProjects
                 Console.WriteLine();
             }
         }
-        public static string ValidateString(string UserInput)
-        {
-            try
-            {
-                UserInput = UserInput.ToLower();
-                return (UserInput);
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine(e.Message);
-                return "0";
-            }
-            catch (Exception f)
-            {
-                Console.WriteLine(f.Message);
-                return "0";
-            }
-        }
+
     }
 }
