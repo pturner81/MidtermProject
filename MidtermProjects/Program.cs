@@ -13,6 +13,8 @@ namespace MidtermProjects
         {
             Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
             string cat = Validators.ValidateString(Console.ReadLine());
+            cat = Validators.IsOption(cat);
+
             bool goAgain = true;
             //makes sure the user puts in the right input
             //list cart imported from the cart class
@@ -20,7 +22,7 @@ namespace MidtermProjects
             while (goAgain)
             {
                 //if printagain = 1 cw("Pick another category") takes in cat value and runs through again
-                if (cat == "toys" || cat == "toy")//shows toys
+                if (cat == "toys")//shows toys
                 {
                     //show toys, ask if they would like to add any to cart 
                     //while addtocart == true
@@ -29,7 +31,7 @@ namespace MidtermProjects
                     //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
                     goAgain = false;// if they are done adding items to the cart and would like to go to check out
                 }
-                else if (cat == "books" || cat == "book")//shows books
+                else if (cat == "books")//shows books
                 {
 
 
@@ -40,7 +42,7 @@ namespace MidtermProjects
                     //if yes then  printagain = 1 and goAgain = true the program ask for user to input another catgory
                     goAgain = false;// if they are done adding items to the cart and would like to go to check out
                 }
-                else if (cat == "games" || cat == "game")//shows game
+                else if (cat == "games")//shows game
                 {
 
                     //show games, ask if they would like to add any to cart 
