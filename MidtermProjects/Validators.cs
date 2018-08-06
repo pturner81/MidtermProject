@@ -64,9 +64,9 @@ namespace MidtermProjects
                 return 0;
             }
         }
-        public static int IsQuantityAvailable(int QuantityChosen, List<Products> list, int ChosenItem)
-        {
-            while (QuantityChosen >= 0 && ChosenItem >= list.Count())
+        public static int IsQuantityAvailable(int QuantityChosen, List<Products> products, int ChosenItem)
+        {//ensures product list has quantity available
+ //           while (QuantityChosen > 0 || QuantityChosen >= products[ChosenItem - 1].Quantity)
             {
                 Console.WriteLine("Please select an available ammount");
                 QuantityChosen = ValidateInt(Console.ReadLine());
@@ -74,7 +74,7 @@ namespace MidtermProjects
             return QuantityChosen;
         }
         public static int IsProductOption(List<Products> list, int ChosenItem)
-        {
+        {//ensures product selected is an available option
             while (ChosenItem <= 1 || ChosenItem > list.Count())
             {
                 Console.WriteLine("Please select an available option");
