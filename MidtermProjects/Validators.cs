@@ -64,7 +64,23 @@ namespace MidtermProjects
                 return 0;
             }
         }
-
-
+        public static int IsQuantityAvailable(int QuantityChosen, List<Products> list, int ChosenItem)
+        {
+            while (QuantityChosen >= 0 && ChosenItem >= list.Count())
+            {
+                Console.WriteLine("Please select an available ammount");
+                QuantityChosen = ValidateInt(Console.ReadLine());
+            }
+            return QuantityChosen;
+        }
+        public static int IsProductOption(List<Products> list, int ChosenItem)
+        {
+            while (ChosenItem <= 1 || ChosenItem > list.Count())
+            {
+                Console.WriteLine("Please select an available option");
+                ChosenItem = ValidateInt(Console.ReadLine());
+            }
+            return ChosenItem;
+        }
     }
 }
