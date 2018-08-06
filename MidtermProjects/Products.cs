@@ -15,6 +15,7 @@ namespace MidtermProjects
         private string title;
         private string itemNum;
         private double price;
+        private int quantity;
 
         public string NAME
         {
@@ -52,6 +53,12 @@ namespace MidtermProjects
             set { price = value; }
             get { return price; }
         }
+
+        public int Quantity
+        {
+            set {quantity = value; }
+            get { return quantity; }
+        }
         #endregion
 
         //constructor to set default values to NA and zero
@@ -63,19 +70,21 @@ namespace MidtermProjects
             Title = "NA";
             ItemNum = "00000000000";
             Price = 0;
+            Quantity = 0;
         }
 
-        public Products(string nam, string des, string tit, string ite, double pri)
+        public Products(string nam, string des, string tit, string ite, double pri, int qua)
         {
             NAME = nam;
             Description = des;
             Title = tit;
             ItemNum = ite;
             Price = pri;
+            Quantity = qua;
         }
         public virtual void PrintInfo(List<Products>products)
         {
-            Console.WriteLine($"Name: {NAME}, Description: {Description}, Title: {Title}, Item Number: {ItemNum}, Price:{Price:C}");
+            Console.WriteLine($"Name: {NAME}, Description: {Description}, Title: {Title}, Item Number: {ItemNum}, Price:{Price:C}, Quantity:{Quantity}");
         }
 
   
