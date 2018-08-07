@@ -66,7 +66,7 @@ namespace MidtermProjects
         }
         public static int IsQuantityAvailable(int QuantityChosen, List<Products> products, int ChosenItem)
         {//ensures product list has quantity available
- //           while (QuantityChosen > 0 || QuantityChosen >= products[ChosenItem - 1].Quantity)
+            while (QuantityChosen <= 0 || QuantityChosen > products[ChosenItem - 1].Quantity)
             {
                 Console.WriteLine("Please select an available ammount");
                 QuantityChosen = ValidateInt(Console.ReadLine());
@@ -81,6 +81,50 @@ namespace MidtermProjects
                 ChosenItem = ValidateInt(Console.ReadLine());
             }
             return ChosenItem;
+        }
+        public static string YesOrNo(string UserInput)
+        {// loops until user selects available category
+            while (UserInput != "y" && UserInput != "yes" && UserInput != "n" && UserInput != "no")
+            {
+                Console.WriteLine("Please select a valid optin (y/n)");
+                UserInput = ValidateString(Console.ReadLine());
+            }
+            if (UserInput == "yes" || UserInput == "y")
+            {
+                return "y";
+            }
+            else
+            {
+                return "n";
+            }
+        }
+        public static string IsPayOption(string UserInput)
+        {
+            while (UserInput != "cash" && UserInput != "check" && UserInput != "credit")
+            {
+                Console.WriteLine("Please select a valid option (Cash/Check/Credit)");
+                UserInput = ValidateString(Console.ReadLine());
+            }
+            return UserInput;
+
+        }
+        public static int IsCartOption(int UserInput, List<Checkout> checkout)
+        {
+            while (UserInput < 1 || UserInput > checkout.Count())
+            {
+                Console.WriteLine("Please select an available option");
+                UserInput = ValidateInt(Console.ReadLine());
+            }
+            return UserInput;
+        }
+        public static int IsQuantityAvailable2(int QuantityChosen, List<Checkout> checkout, int ChosenItem)
+        {//ensures checkout list has quantity available
+            while (QuantityChosen <= 0 || QuantityChosen > checkout[ChosenItem - 1].Quantity)
+            {
+                Console.WriteLine("Please select an available ammount");
+                QuantityChosen = ValidateInt(Console.ReadLine());
+            }
+            return QuantityChosen;
         }
     }
 }

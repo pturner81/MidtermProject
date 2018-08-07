@@ -13,7 +13,7 @@ namespace MidtermProjects
                     base(nam, des, tit, ite, pri, qua)
 
         {
-            Console.WriteLine($"Name: {NAME}, Description: {Description}, Title: {Title}, Item Number: {ItemNum}, Price:{Price:C}, Quantity:{Quantity}");
+            //Console.WriteLine($"Name: {NAME}, Description: {Description}, Title: {Title}, Item Number: {ItemNum}, Price:{Price:C}, Quantity:{Quantity}");
         }
 
         public void PrintInfo1()

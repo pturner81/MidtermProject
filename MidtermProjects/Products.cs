@@ -8,7 +8,6 @@ namespace MidtermProjects
 {
     class Products
     {
-
         #region Publics
         private string name;
         private string description;
@@ -82,16 +81,15 @@ namespace MidtermProjects
             Price = pri;
             Quantity = qua;
         }
-        public virtual void PrintInfo(List<Products>products)
+        public virtual void PrintInfo1()
         {
-            Console.WriteLine($"Name: {NAME}, Description: {Description}, Title: {Title}, Item Number: {ItemNum}, Price:{Price:C}, Quantity:{Quantity}");
+            Console.Write(NAME.PadRight(30));
+            Console.Write(Description.PadRight(40));
+            Console.Write(Title.PadRight(35));
+            //Console.Write(ItemNum.PadRight(20));
+            Console.Write($"${Price}".PadRight(13)); 
+            Console.WriteLine(Quantity);
         }
-
-  
-
-
-
-
 
     }
 }

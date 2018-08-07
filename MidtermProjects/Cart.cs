@@ -6,57 +6,71 @@ using System.Threading.Tasks;
 
 namespace MidtermProjects
 {
-    class Cart : Products
+    class Cart
     {
-        
+        #region Publics
+        private string name;
+        //private string title;
+        private double price;
+        private int quantity;
 
-        //ValidateInt(x);
+        public string Name
+        {
+            set { name = value; }
+            get { return name; }
+        }
+        //public string Title
+        //{
+        //    set { title = value; }
+        //    get { return title; }
 
-        //Cart will add objects for each item added to the cart
-        
-        //Cart will change object proerty "Quantity" from 0 to user number selected
+        //}
+        public double Price
+        {
+            set { price = value; }
+            get { return price; }
+        }
 
-        //Cart will display and ask users if they want change
+        public int Quantity
+        {
+            set { quantity = value; }
+            get { return quantity; }
+        }
+        #endregion
+        public Cart()
+        {
+            Name = "not assigned";
+            Price = 0;
+            Quantity = 0;
+        }
 
-        //Cart will then print results to a receipt and move to checkout
+        public Cart(string nam, double pri, int qua)
+        {
+            Name = nam;
+            Price = pri;
+            Quantity = qua;
+        }
+        public virtual void PrintCartList(Object c)
+        {
+            PrintHeadersC();
+            if (Quantity >= 1)
+            { 
+                Console.Write(Name.PadRight(30));
+                //Console.Write(Title);
+                Console.Write($"${Price}".PadRight(10));
+                Console.WriteLine(Quantity);
+            }
+        }
+        public static void PrintHeadersC()
+        {
+            Console.Write("Name".PadRight(30));
+            Console.Write("Price".PadRight(10));
+            Console.WriteLine("Quantity");
+            Console.Write("====".PadRight(30));
+            Console.Write("=====".PadRight(10));
+            Console.WriteLine("========");
+        }
 
-        //Add three methods to calculate total, tax, and payment due
-       
     }
-    //public static string ValidateString(string UserInput)
-    //{
-    //    try
-    //    {
-    //        UserInput = UserInput.ToLower();
-    //        return (UserInput);
-    //    }
-    //    catch (FormatException e)
-    //    {
-    //        Console.WriteLine(e.Message);
-    //        return "0";
-    //    }
-    //    catch (Exception f)
-    //    {
-    //        Console.WriteLine(f.Message);
-    //        return "0";
-    //    }
-    //}
-    //public static int ValidateInt(string UserInput1)
-    //{
-    //    try
-    //    {
-    //        int.Parse(UserInput1);
-    //        return (int.Parse(UserInput1));
-    //    }
-    //    catch (FormatException e)
-    //    {
-    //        Console.WriteLine(e.Message);
-    //        return 0;
-    //    }
-    //    catch (Exception f)
-    //    {
-    //        Console.WriteLine(f.Message);
-    //        return 0;
-    //    }
-    //}
+    
 }
