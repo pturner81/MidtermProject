@@ -1,4 +1,10 @@
-﻿Thank you for shopping at GC Comics!
+Thank you for shopping at GC Comics!
 1234 Grand Circus Park
 Detroit, MI 48207
 
+Name                          Price        Quantity
+====                          =====        ========
+Tacos and Mercs               11.99        3
+SubTotal ---------- $35.97
+Tax --------------- $2.16
+Total ------------- $38.13
