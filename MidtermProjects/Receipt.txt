@@ -4,7 +4,8 @@ Detroit, MI 48207
 
 Name                          Price        Quantity
 ====                          =====        ========
-Tacos and Mercs               11.99        3
-SubTotal ---------- $35.97
-Tax --------------- $2.16
-Total ------------- $38.13
+Tacos and Mercs               11.99        4
+The Joker vs. IronMan         12.99        2
+SubTotal ---------- $73.94
+Tax --------------- $4.44
+Total ------------- $78.38

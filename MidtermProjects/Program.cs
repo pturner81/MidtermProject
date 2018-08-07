@@ -16,6 +16,8 @@ namespace MidtermProjects
             List<Products> products = InstantiateProductList();
             List<Cart> cart = InstantiateCartList();
 
+            
+
             Console.WriteLine("Welcome to GC Comics!");
             Console.WriteLine("Press any key to view inventory");
             Console.ReadKey();
@@ -29,12 +31,18 @@ namespace MidtermProjects
             PrintCheckout(checkout);
             Console.WriteLine();
 
-            Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
-            string remove = Validators.ValidateString(Console.ReadLine());
-            remove = Validators.YesOrNo(remove);
 
-            remove = CartLoop(checkout, remove);
+            Console.WriteLine("Would you like to go to checkout? (y/n)");
+            string GoToCheckout = Validators.ValidateString(Console.ReadLine());
+            GoToCheckout = Validators.YesOrNo(GoToCheckout);
+            if (GoToCheckout == "n" || GoToCheckout == "no")
+            {
+                Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
+                string remove = Validators.ValidateString(Console.ReadLine());
+                remove = Validators.YesOrNo(remove);
 
+                remove = CartLoop(checkout, remove);
+            }
             double SubTotal, Tax, Total;
             Totals(checkout, out SubTotal, out Tax, out Total);
 
@@ -63,7 +71,7 @@ namespace MidtermProjects
             {
                 Console.WriteLine("Please enter the check number");
                 string CheckNumber = Validators.ValidateString(Console.ReadLine());
-                while (!(Regex.IsMatch(CheckNumber, (@"^\d{3}|\d{4}$"))))
+                while (!(Regex.IsMatch(CheckNumber, (@"^\d{3}$"))))
                 {
                     Console.WriteLine("Please enter a valid check number");
                     CheckNumber = Validators.ValidateString(Console.ReadLine());
@@ -295,7 +303,7 @@ namespace MidtermProjects
 
         public static void PrintInfo(List<Products> products)
         {
-            PrintHeaders();
+            Cart.PrintHeadersC();
             int x = 1;
             foreach (Products p in products)
             {

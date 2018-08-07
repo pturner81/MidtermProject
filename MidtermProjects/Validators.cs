@@ -18,12 +18,12 @@ namespace MidtermProjects
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
-                return "100";
+                return "-1";
             }
             catch (Exception f)
             {
                 Console.WriteLine(f.Message);
-                return "100";
+                return "-1";
             }
         }
         public static string IsOption(string UserInput)
@@ -121,7 +121,7 @@ namespace MidtermProjects
         {//ensures checkout list has quantity available
             while (QuantityChosen < 0 || QuantityChosen > checkout[ChosenItem - 1].Quantity)
             {
-                Console.WriteLine("Please select an available ammount");
+                Console.WriteLine("Please select an available amount");
                 QuantityChosen = ValidateInt(Console.ReadLine());
             }
             return QuantityChosen;
