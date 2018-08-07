@@ -16,5 +16,15 @@ namespace MidtermProjects
         {
             InitializeComponent();
         }
+
+        private void newArrivalsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void marvelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
