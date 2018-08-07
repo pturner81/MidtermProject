@@ -20,6 +20,113 @@ namespace MidtermProjects
             Console.ReadKey();
 
             string Continue = "y";
+            Continue = ShoppingLoop(products, cart, Continue);
+            Console.Clear();
+
+            List<Checkout> checkout = InstantiateCheckout(cart);
+
+            PrintCheckout(checkout);
+            Console.WriteLine();
+
+            Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
+            string remove = Validators.ValidateString(Console.ReadLine());
+            remove = Validators.YesOrNo(remove);
+
+            remove = CartLoop(checkout, remove);
+
+            double SubTotal, Tax, Total;
+            Totals(checkout, out SubTotal, out Tax, out Total);
+
+            PrintFinalCheckout(checkout, SubTotal, Tax, Total);
+            Console.WriteLine();
+
+            Console.WriteLine("How would you like to pay? (cash/check/credit)");
+            string PaymentOption = Validators.ValidateString(Console.ReadLine());
+            PaymentOption = Validators.IsPayOption(PaymentOption);
+
+            #region Checkout
+            if (PaymentOption == "cash")
+            {
+                Console.Write("Please enter cash tendered: $");
+                double CashTaken = Validators.ValidateInt(Console.ReadLine());
+                while (CashTaken < Total)
+                {
+                    Console.Write("Ensure you tender enough to cover the Total: Please re-enter- $");
+                    CashTaken = Validators.ValidateDouble(Console.ReadLine());
+                }
+                double Change = CashTaken - Total;
+                Console.WriteLine($"Your change is ${Change}");
+                Console.ReadKey();
+            }
+/*            else if (PaymentOption == "check")
+            {
+                Console.WriteLine("Please enter the check number");
+                string CheckNumber = Validators.ValidateString(Console.ReadLine());
+                while (!Regex.IsMatch(CheckNumber, (^\d{10}$)))
+                {
+                    Console.WriteLine("Please enter a valid check number");
+                    CheckNumber = Validators.ValidateString(Console.ReadLine());
+                }
+
+                Console.WriteLine("Please enter your routing number");
+                string RoutingNum = Validators.ValidateString(Console.ReadLine());
+                while (!Regex.IsMatch(RoutingNum, (^\d{ 10}$)))
+                {
+                    Console.WriteLine("Please enter a valid routing number");
+                    RoutingNum = Validators.ValidateString(Console.ReadLine());
+                }
+
+                Console.WriteLine("Please enter your account number");
+                string AccountNum = Validators.ValidateString(Console.ReadLine());
+                while (!Regex.IsMatch(AccountNum, (^\d{ 10}$)))
+                {
+                    Console.WriteLine("Please enter a valid account number");
+                    AccountNum = Validators.ValidateString(Console.ReadLine());
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Please enter your card number");
+                string CardNum = Validators.ValidateString(Console.ReadLine());
+                while (!Regex.IsMatch(CardNum, (^\d{ 10}$)))
+                {
+                    Console.WriteLine("Please enter a valid card number");
+                    CardNum = Validators.ValidateString(Console.ReadLine());
+                }
+
+                Console.WriteLine("Please enter your zip code");
+                string Zip = Validators.ValidateString(Console.ReadLine());
+                while (!Regex.IsMatch(Zip, (^\d{ 10}$)))
+                {
+                    Console.WriteLine("Please enter a valid zip code");
+                    Zip = Validators.ValidateString(Console.ReadLine());
+                }
+
+                Console.WriteLine("Please enter your cvv");
+                string Cvv = Validators.ValidateString(Console.ReadLine());
+                while (!Regex.IsMatch(Cvv, (^\d{ 10}$)))
+                {
+                    Console.WriteLine("Please enter a valid cvv");
+                    Cvv = Validators.ValidateString(Console.ReadLine());
+                }
+            }
+ */           
+            #endregion
+
+            PrintReceipt(checkout, SubTotal, Tax, Total);
+
+
+
+            Console.Clear();
+            PrintFinalCheckout(checkout, SubTotal, Tax, Total);
+
+            EndProgram();
+
+        }
+
+        private static string ShoppingLoop(List<Products> products, List<Cart> cart, string Continue)
+        {
             while (Continue == "y")
             {
                 PrintInfo(products);
@@ -28,7 +135,7 @@ namespace MidtermProjects
                 int ChosenItem = Validators.ValidateInt(Console.ReadLine());
                 ChosenItem = Validators.IsProductOption(products, ChosenItem);
 
-                PrintHeaders();
+                PrintHeadersOne();
                 products[ChosenItem - 1].PrintInfo1();
 
                 Console.WriteLine();
@@ -45,24 +152,19 @@ namespace MidtermProjects
                 Continue = Validators.ValidateString(Console.ReadLine());
                 Continue = Validators.YesOrNo(Continue);
             }
-            Console.Clear();
 
-            List<Checkout> checkout = InstantiateCheckout(cart);
+            return Continue;
+        }
 
-            PrintCheckout(checkout);
-            Console.WriteLine();
-
-            Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
-            string remove = Validators.ValidateString(Console.ReadLine());
-            remove = Validators.YesOrNo(remove);
-
+        private static string CartLoop(List<Checkout> checkout, string remove)
+        {
             while (remove == "y")
             {
                 Console.WriteLine($"What item would you like removed? (1-{checkout.Count()})");
                 int ChosenRemove = Validators.ValidateInt(Console.ReadLine());
                 ChosenRemove = Validators.IsCartOption(ChosenRemove, checkout);
 
-                PrintHeaders();
+                PrintHeadersOne();
                 checkout[ChosenRemove - 1].PrintCheckout();
                 Console.WriteLine($"How many would you like to remove? (0-{checkout[ChosenRemove - 1].Quantity})");
                 int NumberRemoved = Validators.ValidateInt(Console.ReadLine());
@@ -78,170 +180,7 @@ namespace MidtermProjects
                 remove = Validators.YesOrNo(RemoveMore);
             }
 
-            double SubTotal, Tax, Total;
-            Totals(checkout, out SubTotal, out Tax, out Total);
-
-            PrintFinalCheckout(checkout, SubTotal, Tax, Total);
-            Console.WriteLine();
-
-            Console.WriteLine("How would you like to pay? (cash/check/credit)");
-            string PaymentOption = Validators.ValidateString(Console.ReadLine());
-            PaymentOption = Validators.IsPayOption(PaymentOption);
-
-            //FILL OUT
-            if (PaymentOption == "cash")
-            {
-                //take cash
-            }
-            else if (PaymentOption == "check")
-            {
-                //take check info
-            }
-            else
-            {
-                //take card info
-            }
-
-            PrintReceipt(checkout, SubTotal, Tax, Total);
-
-
-
-            Console.Clear();
-            PrintFinalCheckout(checkout, SubTotal, Tax, Total);
-
-            EndProgram();
-
-            #region OldComments
-
-            //Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
-            //string cat = Validators.ValidateString(Console.ReadLine());
-            //cat = Validators.IsOption(cat);
-
-            //bool goAgain = true;
-            ////makes sure the user puts in the right input
-            ////list cart imported from the cart class
-            ////printagain = 0 
-            //while (goAgain)
-            //{
-            //    //if printagain = 1 cw("Pick another category") takes in cat value and runs through again
-            //    if (cat == "toys")//shows toys
-            //    {
-            //        //show toys, ask if they would like to add any to cart 
-            //        //while addtocart == true
-            //        //ask if they would like to add anything else to cart 
-            //        //outside the loop it asks if they want to go to another category
-            //        //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
-            //        goAgain = false;// if they are done adding items to the cart and would like to go to check out
-            //    }
-            //    else if (cat == "books")//shows books
-            //    {
-
-
-            //        //show books, ask if they would like to add any to cart 
-            //        //while addtocart == true
-            //        //ask if they would like to add anything else to cart 
-            //        //outside the loop it asks if they want to go to another category
-            //        //if yes then  printagain = 1 and goAgain = true the program ask for user to input another catgory
-            //        goAgain = false;// if they are done adding items to the cart and would like to go to check out
-            //    }
-            //    else if (cat == "games")//shows game
-            //    {
-
-            //        //show games, ask if they would like to add any to cart 
-            //        //while addtocart == true
-            //        //ask if they would like to add anything else to cart 
-            //        //outside the loop it asks if they want to go to another category
-            //        //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
-            //        goAgain = false;// if they are done adding items to the cart and would like to go to check out
-            //    }
-            //    else //light validation
-            //    {
-            //        while (!(Regex.IsMatch(cat, "^[tT][oO][yY][sS]|[tT][oO][yY]|[bB][oO][oO][kK]|[bB][oO][oO][kK][sS]|[bB][oO][oO][kK]|[gG][aA][mM][eE]|[gG][aA][mM][eE][sS]$")))
-            //        {
-            //            Console.WriteLine("Enter the right input");
-            //            cat = Console.ReadLine();
-            //            goAgain = true;
-            //        }
-            //    }
-            //}
-            //checkout code
-            ///////////////////////////////
-            //    Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
-            //    string cat = ValidateString(Console.ReadLine());
-            //    bool goAgain = true;
-            //    //makes sure the use r puts in the right input
-            //    //list cart imported from the cart class
-            //    //printagain = 0 
-            //    while (goAgain)
-            //    {
-            //        //if printagain = 1 cw("Pick another category") takes in cat value and runs through again
-            //        if (cat == "toys" || cat == "toy")//shows toys
-            //        {
-            //            //show toys, ask if they would like to add any to cart 
-            //            //while addtocart == true
-            //            //ask if they would like to add anything else to cart 
-            //            //outside the loop it asks if they want to go to another category
-            //            //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
-            //            goAgain = false;// if they are done adding items to the cart and would like to go to check out
-            //        }
-            //        else if (cat == "books" || cat == "book")//shows books
-            //        {
-
-
-            //            //show books, ask if they would like to add any to cart 
-            //            //while addtocart == true
-            //            //ask if they would like to add anything else to cart 
-            //            //outside the loop it asks if they want to go to another category
-            //            //if yes then  printagain = 1 and goAgain = true the program ask for user to input another catgory
-            //            goAgain = false;// if they are done adding items to the cart and would like to go to check out
-            //        }
-            //        else if (cat == "games" || cat == "game")//shows game
-            //        {
-
-            //            //show games, ask if they would like to add any to cart 
-            //            //while addtocart == true
-            //            //ask if they would like to add anything else to cart 
-            //            //outside the loop it asks if they want to go to another category
-            //            //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
-            //            goAgain = false;// if they are done adding items to the cart and would like to go to check out
-            //        }
-            //        else //light validation
-            //        {
-            //            while (!(Regex.IsMatch(cat, "^[tT][oO][yY][sS]|[tT][oO][yY]|[bB][oO][oO][kK]|[bB][oO][oO][kK][sS]|[bB][oO][oO][kK]|[gG][aA][mM][eE]|[gG][aA][mM][eE][sS]$")))
-            //            {
-            //                Console.WriteLine("Enter the right input");
-            //                cat = Console.ReadLine();
-            //                goAgain = true;
-            //            }
-            //        }
-            //    }
-            //    //checkout code 
-            // print list of items they wanted to buy
-            // ask if they are paying with card cash or check
-            // if (card)
-            //{
-            //   ask for and validate card number (Regex.IsMatch(^\d{16}$))
-            //   ask for zip code (Regex.IsMatch(^\d{5}$))
-            //   ask for cvv (Regex.IsMatch(^\d{3}$))
-            //   store info
-            //}
-            //else if(check)
-            //{
-            //   ask for and validate account number (Regex.IsMatch(^\d{10}$))
-            //   ask for and validate routing number (Regex.IsMatch(^\d{9}$))
-            //   ask for and validate check number (Regex.IsMatch(^\d{3}|\d{4}$))
-            //   store info
-            //}
-            // else if (cash){
-            //   ask for amount
-            //   subtract the cost of the product with the amount paid and print change
-            //   store info
-            // }
-            // else{
-            //  prompt them to enter the right information or run validation method before hand
-            //}
-            // print receipt with payment info
-            #endregion
+            return remove;
         }
 
         private static void EndProgram()
@@ -291,7 +230,7 @@ namespace MidtermProjects
         private static List<Products> InstantiateProductList()
         {
             Book prod1 = new Book("Venom meets Carnage", "volume 1 issue 12", "Venom\'s Revenge", "234535", 5.99, 3);
-            Book prod2 = new Book("The beginning of Wolverine", "Volume 1 issue 1", "Wolverine Genesis", "464848293", 6.99, 5);
+            Book prod2 = new Book("Begnining of Wolverine", "Volume 1 issue 1", "Wolverine Genesis", "464848293", 6.99, 5);
             Book prod3 = new Book("Tacos and Mercs", "Volume 3 issue 24", "Deadpool lives", "2737483746", 11.99, 6);
             Book prod4 = new Book("Amazing Spider-Man #3", "Volume 4 issue 3", "Mavel Spider Man", "47477444774", 3.99, 9);
             Book prod5 = new Book("Captain America #1", "Volume 3, issue 1", "Captain America is America", "4747755", 3.99, 9);
@@ -306,7 +245,7 @@ namespace MidtermProjects
             Toy prod14 = new Toy("Pikachu Plush", "14 inch plush Pikachu", "Pika Pika Pakachu", "47438347282374", 24.67, 5);
             Toy prod15 = new Toy("Batman Bobblehead", "4 inch Batman Begins Bobblehead", "BatBobble", "464247842848293", 19.99, 7);
             Toy prod16 = new Toy("Superman 2 Hero", "Classic AF with opposable thumbs", "Superman action", "23435454746", 27.99, 5);
-            Toy prod17 = new Toy("Amazing Spiderman Figure", "Classic AF with 385 feet of web", "Amazing Spiderman", "247477373", 9.99, 3);
+            Toy prod17 = new Toy("Amzng Spiderman Figure", "Classic AF with 385 feet of web", "Amazing Spiderman", "247477373", 9.99, 3);
             List<Products> products = new List<Products>() { prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12, prod13, prod14, prod15, prod16, prod17 };
             return products;
         }
@@ -320,6 +259,21 @@ namespace MidtermProjects
             Console.Write("Price".PadRight(10));
             Console.WriteLine("Quantity");
             Console.Write("=".PadRight(4));
+            Console.Write("====".PadRight(30));
+            Console.Write("===========".PadRight(40));
+            Console.Write("=====".PadRight(35));
+            //Console.Write("===========".PadRight(20));
+            Console.Write("=====".PadRight(10));
+            Console.WriteLine("========");
+        }
+        public static void PrintHeadersOne()
+        {
+            Console.Write("Name".PadRight(30));
+            Console.Write("Description".PadRight(40));
+            Console.Write("Title".PadRight(35));
+            //Console.Write("Item Number".PadRight(20));
+            Console.Write("Price".PadRight(10));
+            Console.WriteLine("Quantity");
             Console.Write("====".PadRight(30));
             Console.Write("===========".PadRight(40));
             Console.Write("=====".PadRight(35));
@@ -430,3 +384,133 @@ namespace MidtermProjects
 
     }
 }
+#region OldComments
+
+//Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
+//string cat = Validators.ValidateString(Console.ReadLine());
+//cat = Validators.IsOption(cat);
+
+//bool goAgain = true;
+////makes sure the user puts in the right input
+////list cart imported from the cart class
+////printagain = 0 
+//while (goAgain)
+//{
+//    //if printagain = 1 cw("Pick another category") takes in cat value and runs through again
+//    if (cat == "toys")//shows toys
+//    {
+//        //show toys, ask if they would like to add any to cart 
+//        //while addtocart == true
+//        //ask if they would like to add anything else to cart 
+//        //outside the loop it asks if they want to go to another category
+//        //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
+//        goAgain = false;// if they are done adding items to the cart and would like to go to check out
+//    }
+//    else if (cat == "books")//shows books
+//    {
+
+
+//        //show books, ask if they would like to add any to cart 
+//        //while addtocart == true
+//        //ask if they would like to add anything else to cart 
+//        //outside the loop it asks if they want to go to another category
+//        //if yes then  printagain = 1 and goAgain = true the program ask for user to input another catgory
+//        goAgain = false;// if they are done adding items to the cart and would like to go to check out
+//    }
+//    else if (cat == "games")//shows game
+//    {
+
+//        //show games, ask if they would like to add any to cart 
+//        //while addtocart == true
+//        //ask if they would like to add anything else to cart 
+//        //outside the loop it asks if they want to go to another category
+//        //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
+//        goAgain = false;// if they are done adding items to the cart and would like to go to check out
+//    }
+//    else //light validation
+//    {
+//        while (!(Regex.IsMatch(cat, "^[tT][oO][yY][sS]|[tT][oO][yY]|[bB][oO][oO][kK]|[bB][oO][oO][kK][sS]|[bB][oO][oO][kK]|[gG][aA][mM][eE]|[gG][aA][mM][eE][sS]$")))
+//        {
+//            Console.WriteLine("Enter the right input");
+//            cat = Console.ReadLine();
+//            goAgain = true;
+//        }
+//    }
+//}
+//checkout code
+///////////////////////////////
+//    Console.WriteLine("Which category would you like to buy from? (Toys, Books, Games)");
+//    string cat = ValidateString(Console.ReadLine());
+//    bool goAgain = true;
+//    //makes sure the use r puts in the right input
+//    //list cart imported from the cart class
+//    //printagain = 0 
+//    while (goAgain)
+//    {
+//        //if printagain = 1 cw("Pick another category") takes in cat value and runs through again
+//        if (cat == "toys" || cat == "toy")//shows toys
+//        {
+//            //show toys, ask if they would like to add any to cart 
+//            //while addtocart == true
+//            //ask if they would like to add anything else to cart 
+//            //outside the loop it asks if they want to go to another category
+//            //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
+//            goAgain = false;// if they are done adding items to the cart and would like to go to check out
+//        }
+//        else if (cat == "books" || cat == "book")//shows books
+//        {
+
+
+//            //show books, ask if they would like to add any to cart 
+//            //while addtocart == true
+//            //ask if they would like to add anything else to cart 
+//            //outside the loop it asks if they want to go to another category
+//            //if yes then  printagain = 1 and goAgain = true the program ask for user to input another catgory
+//            goAgain = false;// if they are done adding items to the cart and would like to go to check out
+//        }
+//        else if (cat == "games" || cat == "game")//shows game
+//        {
+
+//            //show games, ask if they would like to add any to cart 
+//            //while addtocart == true
+//            //ask if they would like to add anything else to cart 
+//            //outside the loop it asks if they want to go to another category
+//            //if yes then printagain = 1 and goAgain = true the program ask for user to input another catgory
+//            goAgain = false;// if they are done adding items to the cart and would like to go to check out
+//        }
+//        else //light validation
+//        {
+//            while (!(Regex.IsMatch(cat, "^[tT][oO][yY][sS]|[tT][oO][yY]|[bB][oO][oO][kK]|[bB][oO][oO][kK][sS]|[bB][oO][oO][kK]|[gG][aA][mM][eE]|[gG][aA][mM][eE][sS]$")))
+//            {
+//                Console.WriteLine("Enter the right input");
+//                cat = Console.ReadLine();
+//                goAgain = true;
+//            }
+//        }
+//    }
+//    //checkout code 
+// print list of items they wanted to buy
+// ask if they are paying with card cash or check
+// if (card)
+//{
+//   ask for and validate card number (Regex.IsMatch(^\d{16}$))
+//   ask for zip code (Regex.IsMatch(^\d{5}$))
+//   ask for cvv (Regex.IsMatch(^\d{3}$))
+//   store info
+//}
+//else if(check)
+//{
+//   ask for and validate account number (Regex.IsMatch(^\d{10}$))
+//   ask for and validate routing number (Regex.IsMatch(^\d{9}$))
+//   ask for and validate check number (Regex.IsMatch(^\d{3}|\d{4}$))
+//   store info
+//}
+// else if (cash){
+//   ask for amount
+//   subtract the cost of the product with the amount paid and print change
+//   store info
+// }
+// else{
+//  prompt them to enter the right information or run validation method before hand
+//}
+#endregion

@@ -126,5 +126,23 @@ namespace MidtermProjects
             }
             return QuantityChosen;
         }
+        public static double ValidateDouble(string UserInput1)
+        {//ensures userinput doesn't break code
+            try
+            {
+                double.Parse(UserInput1);
+                return (double.Parse(UserInput1));
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+            }
+            catch (Exception f)
+            {
+                Console.WriteLine(f.Message);
+                return 0;
+            }
+        }
     }
 }

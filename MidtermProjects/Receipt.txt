@@ -9,3 +9,28 @@ Amazing Spiderman Action Figure9.99         2
 SubTotal ---------- $54.93
 Tax --------------- $3.2958
 Total ------------- $58.2258
+Name                          Price        Quantity
+====                          =====        ========
+The beginning of Wolverine    6.99         4
+Amazing Spider-Man #3         3.99         7
+The Joker vs. IronMan         12.99        4
+Robo Cop                      3.13         0
+Spinal Tap                    11           11
+SubTotal ---------- $228.85
+Tax --------------- $13.731
+Total ------------- $242.581
+Name                          Price        Quantity
+====                          =====        ========
+Cards Against Humanity        24.99        2
+Amazing Spiderman Action Figure9.99         3
+SubTotal ---------- $79.95
+Tax --------------- $4.797
+Total ------------- $84.747
+Name                          Price        Quantity
+====                          =====        ========
+Tacos and Mercs               11.99        5
+Poker Set                     46.99        4
+Cards Against Humanity        24.99        2
+SubTotal ---------- $297.89
+Tax --------------- $17.8734
+Total ------------- $315.7634
