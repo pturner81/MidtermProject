@@ -10,6 +10,7 @@ namespace MidtermProjects
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             List<Products> products = InstantiateProductList();
@@ -58,11 +59,11 @@ namespace MidtermProjects
                 Console.WriteLine($"Your change is ${Change}");
                 Console.ReadKey();
             }
-/*            else if (PaymentOption == "check")
+            else if (PaymentOption == "check")
             {
                 Console.WriteLine("Please enter the check number");
                 string CheckNumber = Validators.ValidateString(Console.ReadLine());
-                while (!Regex.IsMatch(CheckNumber, (^\d{10}$)))
+                while (!(Regex.IsMatch(CheckNumber, (@"^\d{3}|\d{4}$"))))
                 {
                     Console.WriteLine("Please enter a valid check number");
                     CheckNumber = Validators.ValidateString(Console.ReadLine());
@@ -70,7 +71,7 @@ namespace MidtermProjects
 
                 Console.WriteLine("Please enter your routing number");
                 string RoutingNum = Validators.ValidateString(Console.ReadLine());
-                while (!Regex.IsMatch(RoutingNum, (^\d{ 10}$)))
+                while (!(Regex.IsMatch(RoutingNum, (@"^\d{9}$"))))
                 {
                     Console.WriteLine("Please enter a valid routing number");
                     RoutingNum = Validators.ValidateString(Console.ReadLine());
@@ -78,7 +79,7 @@ namespace MidtermProjects
 
                 Console.WriteLine("Please enter your account number");
                 string AccountNum = Validators.ValidateString(Console.ReadLine());
-                while (!Regex.IsMatch(AccountNum, (^\d{ 10}$)))
+                while (!(Regex.IsMatch(AccountNum, (@"^\d{10}$"))))
                 {
                     Console.WriteLine("Please enter a valid account number");
                     AccountNum = Validators.ValidateString(Console.ReadLine());
@@ -87,9 +88,9 @@ namespace MidtermProjects
             }
             else
             {
-                Console.WriteLine("Please enter your card number");
+                Console.WriteLine("Please enter your card number (Visa/MasterCard");
                 string CardNum = Validators.ValidateString(Console.ReadLine());
-                while (!Regex.IsMatch(CardNum, (^\d{ 10}$)))
+                while (!(Regex.IsMatch(CardNum, (@"^\d{16}$"))))
                 {
                     Console.WriteLine("Please enter a valid card number");
                     CardNum = Validators.ValidateString(Console.ReadLine());
@@ -97,7 +98,7 @@ namespace MidtermProjects
 
                 Console.WriteLine("Please enter your zip code");
                 string Zip = Validators.ValidateString(Console.ReadLine());
-                while (!Regex.IsMatch(Zip, (^\d{ 10}$)))
+                while (!(Regex.IsMatch(Zip, (@"^\d{5}$"))))
                 {
                     Console.WriteLine("Please enter a valid zip code");
                     Zip = Validators.ValidateString(Console.ReadLine());
@@ -105,13 +106,13 @@ namespace MidtermProjects
 
                 Console.WriteLine("Please enter your cvv");
                 string Cvv = Validators.ValidateString(Console.ReadLine());
-                while (!Regex.IsMatch(Cvv, (^\d{ 10}$)))
+                while (!(Regex.IsMatch(Cvv, (@"^\d{3}$"))))
                 {
                     Console.WriteLine("Please enter a valid cvv");
                     Cvv = Validators.ValidateString(Console.ReadLine());
                 }
             }
- */           
+
             #endregion
 
             PrintReceipt(checkout, SubTotal, Tax, Total);

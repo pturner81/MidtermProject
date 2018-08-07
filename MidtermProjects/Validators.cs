@@ -75,7 +75,7 @@ namespace MidtermProjects
         }
         public static int IsProductOption(List<Products> list, int ChosenItem)
         {//ensures product selected is an available option
-            while (ChosenItem <= 1 || ChosenItem > list.Count())
+            while (ChosenItem < 1 || ChosenItem > list.Count())
             {
                 Console.WriteLine("Please select an available option");
                 ChosenItem = ValidateInt(Console.ReadLine());
