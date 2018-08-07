@@ -2,10 +2,10 @@
 1234 Grand Circus Park
 Detroit, MI 48207
 
-
 Name                          Price        Quantity
 ====                          =====        ========
-Captain America #1            3.99         4
-SubTotal ---------- $15.96
-Tax --------------- $0.9576
-Total ------------- $16.9176
+The beginning of Wolverine    6.99         5
+Amazing Spiderman Action Figure9.99         2
+SubTotal ---------- $54.93
+Tax --------------- $3.2958
+Total ------------- $58.2258

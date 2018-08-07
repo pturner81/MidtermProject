@@ -50,11 +50,12 @@ namespace MidtermProjects
             Price = pri;
             Quantity = qua;
         }
-        public virtual void PrintCartList(Object c)
+        public virtual void PrintCartList(Object c, int x)
         {
             PrintHeadersC();
             if (Quantity >= 1)
-            { 
+            {
+                Console.Write($"{x}) ".PadRight(4));
                 Console.Write(Name.PadRight(30));
                 //Console.Write(Title);
                 Console.Write($"${Price}".PadRight(10));
@@ -63,9 +64,11 @@ namespace MidtermProjects
         }
         public static void PrintHeadersC()
         {
+            Console.Write($"#".PadRight(4));
             Console.Write("Name".PadRight(30));
             Console.Write("Price".PadRight(10));
             Console.WriteLine("Quantity");
+            Console.Write("=".PadRight(4));
             Console.Write("====".PadRight(30));
             Console.Write("=====".PadRight(10));
             Console.WriteLine("========");

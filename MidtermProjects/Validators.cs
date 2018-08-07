@@ -18,12 +18,12 @@ namespace MidtermProjects
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
-                return "0";
+                return "100";
             }
             catch (Exception f)
             {
                 Console.WriteLine(f.Message);
-                return "0";
+                return "100";
             }
         }
         public static string IsOption(string UserInput)
@@ -56,17 +56,17 @@ namespace MidtermProjects
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
-                return 0;
+                return 100;
             }
             catch (Exception f)
             {
                 Console.WriteLine(f.Message);
-                return 0;
+                return 100;
             }
         }
         public static int IsQuantityAvailable(int QuantityChosen, List<Products> products, int ChosenItem)
         {//ensures product list has quantity available
-            while (QuantityChosen <= 0 || QuantityChosen > products[ChosenItem - 1].Quantity)
+            while (QuantityChosen < 0 || QuantityChosen > products[ChosenItem - 1].Quantity)
             {
                 Console.WriteLine("Please select an available ammount");
                 QuantityChosen = ValidateInt(Console.ReadLine());
@@ -119,7 +119,7 @@ namespace MidtermProjects
         }
         public static int IsQuantityAvailable2(int QuantityChosen, List<Checkout> checkout, int ChosenItem)
         {//ensures checkout list has quantity available
-            while (QuantityChosen <= 0 || QuantityChosen > checkout[ChosenItem - 1].Quantity)
+            while (QuantityChosen < 0 || QuantityChosen > checkout[ChosenItem - 1].Quantity)
             {
                 Console.WriteLine("Please select an available ammount");
                 QuantityChosen = ValidateInt(Console.ReadLine());

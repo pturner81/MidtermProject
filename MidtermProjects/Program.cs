@@ -16,13 +16,12 @@ namespace MidtermProjects
             List<Cart> cart = InstantiateCartList();
 
             Console.WriteLine("Welcome to GC Comics!");
+            Console.WriteLine("Press any key to view inventory");
+            Console.ReadKey();
 
             string Continue = "y";
             while (Continue == "y")
             {
-                Console.WriteLine("Press any key to view inventory");
-                Console.ReadKey();
-
                 PrintInfo(products);
 
                 Console.WriteLine($"What item would you like to purchase? (1-{products.Count()})");
@@ -313,12 +312,14 @@ namespace MidtermProjects
         }
         public static void PrintHeaders()
         {
+            Console.Write("#".PadRight(4));
             Console.Write("Name".PadRight(30));
             Console.Write("Description".PadRight(40));
             Console.Write("Title".PadRight(35));
             //Console.Write("Item Number".PadRight(20));
             Console.Write("Price".PadRight(10));
             Console.WriteLine("Quantity");
+            Console.Write("=".PadRight(4));
             Console.Write("====".PadRight(30));
             Console.Write("===========".PadRight(40));
             Console.Write("=====".PadRight(35));
@@ -328,6 +329,7 @@ namespace MidtermProjects
         }
         public static void PrintCloser()
         {
+            Console.Write("=".PadRight(4));
             Console.Write("====".PadRight(30));
             Console.Write("===========".PadRight(40));
             Console.Write("=====".PadRight(35));
@@ -339,10 +341,13 @@ namespace MidtermProjects
         public static void PrintInfo(List<Products> products)
         {
             PrintHeaders();
+            int x = 1;
             foreach (Products p in products)
             {
+                Console.Write($"{x}) ".PadRight(4));
                 p.PrintInfo1();
                 //Console.WriteLine();
+                x = x + 1;
             }
             PrintCloser();
         }
@@ -371,11 +376,13 @@ namespace MidtermProjects
         private static void PrintCart(List<Cart> cart)
         {//prints cartlist
             Console.WriteLine("======Cart=======");
+            int x = 1;
             foreach (Cart c in cart)
             {
                 if (c.Quantity >= 1)
                 {
-                    c.PrintCartList(c);
+                    c.PrintCartList(c,x);
+                    x = x + 1;
                 }
             }
             Console.WriteLine("==================");
@@ -384,9 +391,12 @@ namespace MidtermProjects
         {
             Console.WriteLine("======Cart-Checkout=======");
             Cart.PrintHeadersC();
+            int x = 1;
             foreach (Checkout c in checkout)
             {
+                Console.Write($"{x}) ".PadRight(4));
                 c.PrintCheckout();
+                x = x + 1;
             }
             Console.WriteLine("===========================");
         }
