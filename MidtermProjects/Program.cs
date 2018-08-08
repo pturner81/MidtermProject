@@ -476,6 +476,11 @@ namespace MidtermProjects
 
                         AddNewProduct(products, NewName, NewDescription, NewTitle, NewPrice, NewQuantity);
                         AddNewCart(cart, NewName, NewPrice);
+
+                        //writes new item to datainput file
+                        StreamWriter wr = new StreamWriter("../../DataInput.txt", true);
+                        wr.WriteLine($"{NewName},{NewDescription},{NewTitle},81818181,{NewPrice.ToString()},{NewQuantity.ToString()}");
+                        wr.Close();
                     }
                     else
                     {
@@ -514,6 +519,7 @@ namespace MidtermProjects
             newprod.Quantity = NewQuantity;
             products.Add(newprod);
         }
+
         private static void TakeNewInput(out string NewName, out string NewDescription, out string NewTitle, out double NewPrice, out int NewQuantity)
         {//takes and validates supply product category
             Console.WriteLine("What is the product Name?");
