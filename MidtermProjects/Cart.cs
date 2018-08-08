@@ -73,6 +73,15 @@ namespace MidtermProjects
             Console.Write("=====".PadRight(10));
             Console.WriteLine("========");
         }
+        public static void PrintHeadersR()
+        {
+            Console.Write("Name".PadRight(30));
+            Console.Write("Price".PadRight(10));
+            Console.WriteLine("Quantity");
+            Console.Write("====".PadRight(30));
+            Console.Write("=====".PadRight(10));
+            Console.WriteLine("========");
+        }
 
     }
     

@@ -56,12 +56,12 @@ namespace MidtermProjects
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
-                return 100;
+                return -1;
             }
             catch (Exception f)
             {
                 Console.WriteLine(f.Message);
-                return 100;
+                return -1;
             }
         }
         public static int IsQuantityAvailable(int QuantityChosen, List<Products> products, int ChosenItem)
@@ -99,7 +99,7 @@ namespace MidtermProjects
             }
         }
         public static string IsPayOption(string UserInput)
-        {
+        {//ensures user selects a valide payment method
             while (UserInput != "cash" && UserInput != "check" && UserInput != "credit")
             {
                 Console.WriteLine("Please select a valid option (Cash/Check/Credit)");
@@ -109,7 +109,7 @@ namespace MidtermProjects
 
         }
         public static int IsCartOption(int UserInput, List<Checkout> checkout)
-        {
+        {//ensures user selects an available object
             while (UserInput < 1 || UserInput > checkout.Count())
             {
                 Console.WriteLine("Please select an available option");

@@ -16,44 +16,76 @@ namespace MidtermProjects
             List<Products> products = InstantiateProductList();
             List<Cart> cart = InstantiateCartList();
 
-            
-
-            Console.WriteLine("Welcome to GC Comics!");
-            Console.WriteLine("Press any key to view inventory");
-            Console.ReadKey();
-
-            string Continue = "y";
-            Continue = ShoppingLoop(products, cart, Continue);
-            Console.Clear();
-
-            List<Checkout> checkout = InstantiateCheckout(cart);
-
-            PrintCheckout(checkout);
-            Console.WriteLine();
-
-
-            Console.WriteLine("Would you like to go to checkout? (y/n)");
-            string GoToCheckout = Validators.ValidateString(Console.ReadLine());
-            GoToCheckout = Validators.YesOrNo(GoToCheckout);
-            if (GoToCheckout == "n" || GoToCheckout == "no")
+            string ReRunProgram = "y";
+            while (ReRunProgram == "y")
             {
-                Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
-                string remove = Validators.ValidateString(Console.ReadLine());
-                remove = Validators.YesOrNo(remove);
+                Console.WriteLine("Welcome to GC Comics!");
+                Console.WriteLine("Press any key to view inventory");
+                Console.ReadKey();
 
-                remove = CartLoop(checkout, remove);
+
+                string Continue = "y";
+                Continue = ShoppingLoop(products, cart, Continue);
+
+                List<Checkout> checkout = InstantiateCheckout(cart);
+
+                PrintCheckout(checkout);
+
+                //Console.WriteLine("Would you like to go to checkout? (y/n)");
+                //string GoToCheckout = Validators.ValidateString(Console.ReadLine());
+                //GoToCheckout = Validators.YesOrNo(GoToCheckout);
+                //if (GoToCheckout == "n" || GoToCheckout == "no")
+                //{
+                    Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
+                    string remove = Validators.ValidateString(Console.ReadLine());
+                    remove = Validators.YesOrNo(remove);
+
+                    remove = CartLoop(checkout, remove);
+                //}
+
+                double SubTotal, Tax, Total;
+                Totals(checkout, out SubTotal, out Tax, out Total);
+
+                PrintFinalCheckout(checkout, SubTotal, Tax, Total);
+
+                Checkout(Total);
+
+                PrintReceipt(checkout, SubTotal, Tax, Total);
+
+                Console.Clear();
+                PrintFinalCheckout(checkout, SubTotal, Tax, Total);
+
+
+            
+                EndProgram();
+
+                Console.WriteLine();
+                
+                foreach (Cart c in cart)
+                {
+                    c.Quantity = 0;
+                }
+                foreach (Checkout c in checkout)
+                {
+                    c.Quantity = 0;
+                }
+
+                Console.WriteLine("Would you like to shop again? (y/n)");
+                ReRunProgram = Validators.ValidateString(Console.ReadLine());
+                ReRunProgram = Validators.YesOrNo(ReRunProgram);
+                Console.Clear();
             }
-            double SubTotal, Tax, Total;
-            Totals(checkout, out SubTotal, out Tax, out Total);
+            Console.WriteLine("Thank you for shopping with us!");
+            Console.WriteLine("Press any key to exit");
+        }
 
-            PrintFinalCheckout(checkout, SubTotal, Tax, Total);
-            Console.WriteLine();
-
+        private static void Checkout(double Total)
+        {
             Console.WriteLine("How would you like to pay? (cash/check/credit)");
             string PaymentOption = Validators.ValidateString(Console.ReadLine());
             PaymentOption = Validators.IsPayOption(PaymentOption);
 
-            #region Checkout
+
             if (PaymentOption == "cash")
             {
                 Console.Write("Please enter cash tendered: $");
@@ -63,9 +95,9 @@ namespace MidtermProjects
                     Console.Write("Ensure you tender enough to cover the Total: Please re-enter- $");
                     CashTaken = Validators.ValidateDouble(Console.ReadLine());
                 }
-                double Change = CashTaken - Total;
+                double Change = Math.Round(CashTaken - Total, 2);
+                Console.WriteLine();
                 Console.WriteLine($"Your change is ${Change}");
-                Console.ReadKey();
             }
             else if (PaymentOption == "check")
             {
@@ -120,18 +152,9 @@ namespace MidtermProjects
                     Cvv = Validators.ValidateString(Console.ReadLine());
                 }
             }
-
-            #endregion
-
-            PrintReceipt(checkout, SubTotal, Tax, Total);
-
-
-
-            Console.Clear();
-            PrintFinalCheckout(checkout, SubTotal, Tax, Total);
-
-            EndProgram();
-
+            Console.WriteLine();
+            Console.WriteLine("Press enter to print receipt");
+            Console.ReadKey();
         }
 
         private static string ShoppingLoop(List<Products> products, List<Cart> cart, string Continue)
@@ -161,7 +184,7 @@ namespace MidtermProjects
                 Continue = Validators.ValidateString(Console.ReadLine());
                 Continue = Validators.YesOrNo(Continue);
             }
-
+            Console.Clear();
             return Continue;
         }
 
@@ -173,8 +196,9 @@ namespace MidtermProjects
                 int ChosenRemove = Validators.ValidateInt(Console.ReadLine());
                 ChosenRemove = Validators.IsCartOption(ChosenRemove, checkout);
 
-                PrintHeadersOne();
+                Cart.PrintHeadersR();
                 checkout[ChosenRemove - 1].PrintCheckout();
+                Console.WriteLine();
                 Console.WriteLine($"How many would you like to remove? (0-{checkout[ChosenRemove - 1].Quantity})");
                 int NumberRemoved = Validators.ValidateInt(Console.ReadLine());
                 NumberRemoved = Validators.IsQuantityAvailable2(NumberRemoved, checkout, ChosenRemove);
@@ -197,7 +221,6 @@ namespace MidtermProjects
             Console.WriteLine();
             Console.WriteLine("Thank you for shopping at GC Comics!");
             Console.WriteLine("Your receipt has been printed to receipt.txt");
-            Console.ReadKey();
         }
 
         private static void PrintFinalCheckout(List<Checkout> checkout, double SubTotal, double Tax, double Total)
@@ -208,6 +231,7 @@ namespace MidtermProjects
             Console.WriteLine($"Tax ---------- ${Tax}");
             Console.WriteLine($"Total -------- ${Total}");
             Console.WriteLine("===========================");
+            Console.WriteLine();
         }
 
         private static void Totals(List<Checkout> checkout, out double SubTotal, out double Tax, out double Total)
@@ -303,7 +327,7 @@ namespace MidtermProjects
 
         public static void PrintInfo(List<Products> products)
         {
-            Cart.PrintHeadersC();
+            PrintHeaders();
             int x = 1;
             foreach (Products p in products)
             {
@@ -317,7 +341,7 @@ namespace MidtermProjects
         private static List<Cart> InstantiateCartList()
         {
             Cart cart1 = new Cart("Venom meets Carnage", 5.99, 0);
-            Cart cart2 = new Cart("The beginning of Wolverine", 6.99, 0);
+            Cart cart2 = new Cart("Beginning of Wolverine", 6.99, 0);
             Cart cart3 = new Cart("Tacos and Mercs", 11.99, 0);
             Cart cart4 = new Cart("Amazing Spider-Man #3", 3.99, 0);
             Cart cart5 = new Cart("Captain America #1", 3.99, 0);
@@ -332,7 +356,7 @@ namespace MidtermProjects
             Cart cart14 = new Cart("Pikachu Plush", 24.67, 0);
             Cart cart15 = new Cart("Batman Bobblehead", 19.99, 0);
             Cart cart16 = new Cart("Superman 2 Hero", 27.99, 0);
-            Cart cart17 = new Cart("Amazing Spiderman Action Figure", 9.99, 0);
+            Cart cart17 = new Cart("Amzng Spiderman Action Figure", 9.99, 0);
             List<Cart> cart = new List<Cart>() { cart1, cart2, cart3, cart4, cart5, cart6, cart7, cart8, cart9, cart10, cart11, cart12, cart13, cart14, cart15, cart16, cart17 };
             return cart;
         }
@@ -362,6 +386,7 @@ namespace MidtermProjects
                 x = x + 1;
             }
             Console.WriteLine("===========================");
+            Console.WriteLine();
         }
         private static void PrintReceipt(List<Checkout> checkout, double SubTotal, double Tax, double Total)
         {
