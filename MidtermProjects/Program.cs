@@ -479,7 +479,8 @@ namespace MidtermProjects
 
                         //writes new item to datainput file
                         StreamWriter wr = new StreamWriter("../../DataInput.txt", true);
-                        wr.WriteLine($"{NewName},{NewDescription},{NewTitle},81818181,{NewPrice.ToString()},{NewQuantity.ToString()}");
+                        wr.WriteLine();
+                        wr.Write($"{NewName},{NewDescription},{NewTitle},81818181,{NewPrice.ToString()},{NewQuantity.ToString()}");
                         wr.Close();
                     }
                     else
