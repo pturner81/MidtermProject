@@ -444,9 +444,9 @@ namespace MidtermProjects
         }
         private static void ReSupplyLoop(List<Products> products, List<Cart> cart)
         {//allows user to add objects to products and loopd unitl user request
-            Console.WriteLine("Are you supplying any items (y/n)");
+            Console.WriteLine("Press any key store or type 'y' to stock items");
             string Supplier = Validators.ValidateString(Console.ReadLine());
-            Supplier = Validators.YesOrNo(Supplier);
+            //Supplier = Validators.YesOrNo(Supplier);
 
             string SupplyContinue;
             if (Supplier == "y")
