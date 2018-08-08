@@ -63,6 +63,7 @@
     <None Include="obj\Debug\MidtermProjects.csprojAssemblyReference.cache" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataInput.txt" />
     <Content Include="Receipt.txt" />
   </ItemGroup>
   <ItemGroup>

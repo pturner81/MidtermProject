@@ -16,13 +16,12 @@ namespace MidtermProjects
             List<Products> products = InstantiateProductList();
             List<Cart> cart = InstantiateCartList();
 
+            ReSupplyLoop(products, cart);
+
             string ReRunProgram = "y";
             while (ReRunProgram == "y")
             {
-                Console.WriteLine("Welcome to GC Comics!");
-                Console.WriteLine("Press any key to view inventory");
-                Console.ReadKey();
-
+                WelcomeMessage();
 
                 string Continue = "y";
                 Continue = ShoppingLoop(products, cart, Continue);
@@ -31,17 +30,12 @@ namespace MidtermProjects
 
                 PrintCheckout(checkout);
 
-                //Console.WriteLine("Would you like to go to checkout? (y/n)");
-                //string GoToCheckout = Validators.ValidateString(Console.ReadLine());
-                //GoToCheckout = Validators.YesOrNo(GoToCheckout);
-                //if (GoToCheckout == "n" || GoToCheckout == "no")
-                //{
-                    Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
-                    string remove = Validators.ValidateString(Console.ReadLine());
-                    remove = Validators.YesOrNo(remove);
+                Console.WriteLine("Would you like to remove any items from your cart? (y/n)");
+                string remove = Validators.ValidateString(Console.ReadLine());
+                remove = Validators.YesOrNo(remove);
 
-                    remove = CartLoop(checkout, remove);
-                //}
+                remove = CartLoop(checkout, remove);
+
 
                 double SubTotal, Tax, Total;
                 Totals(checkout, out SubTotal, out Tax, out Total);
@@ -56,31 +50,107 @@ namespace MidtermProjects
                 PrintFinalCheckout(checkout, SubTotal, Tax, Total);
 
 
-            
+
                 EndProgram();
 
                 Console.WriteLine();
-                
-                foreach (Cart c in cart)
-                {
-                    c.Quantity = 0;
-                }
-                foreach (Checkout c in checkout)
-                {
-                    c.Quantity = 0;
-                }
 
-                Console.WriteLine("Would you like to shop again? (y/n)");
-                ReRunProgram = Validators.ValidateString(Console.ReadLine());
-                ReRunProgram = Validators.YesOrNo(ReRunProgram);
-                Console.Clear();
+                ClearCart(cart, checkout);
+
+                ReRunProgram = ShopAgain();
             }
             Console.WriteLine("Thank you for shopping with us!");
             Console.WriteLine("Press any key to exit");
         }
 
-        private static void Checkout(double Total)
+        private static void WelcomeMessage()
         {
+            Console.WriteLine("Welcome to GC Comics!");
+            Console.WriteLine("Press any key to view inventory");
+            Console.ReadKey();
+        }
+        private static List<Products> InstantiateProductList()
+        {//Instantiates product list
+            Book prod1 = new Book("Venom meets Carnage", "volume 1 issue 12", "Venom\'s Revenge", "234535", 5.99, 3);
+            Book prod2 = new Book("Begnining of Wolverine", "Volume 1 issue 1", "Wolverine Genesis", "464848293", 6.99, 5);
+            Book prod3 = new Book("Tacos and Mercs", "Volume 3 issue 24", "Deadpool lives", "2737483746", 11.99, 6);
+            Book prod4 = new Book("Amazing Spider-Man #3", "Volume 4 issue 3", "Mavel Spider Man", "47477444774", 3.99, 9);
+            Book prod5 = new Book("Captain America #1", "Volume 3, issue 1", "Captain America is America", "4747755", 3.99, 9);
+            Book prod6 = new Book("The Joker vs. IronMan", "Volume never", "Universes Collide", "66675748", 12.99, 10);
+            Book prod7 = new Book("Fantastic Four", "Episode 34", "The Thing Likes Rock Music", "45555555", 3.99, 4);
+            Book prod8 = new Book("Robo Cop", "Episode 313", "The Coolest Superhero from Detroit", "313131313", 3.13, 13);
+            Book prod9 = new Book("Spinal Tap", "Episode 11", "This One Goes to Eleven", "11111111111", 11.00, 11);
+            Game prod10 = new Game("UNO", "No description here", "UNO Classic", "234234234535", 6.99, 6);
+            Game prod11 = new Game("Poker Set", "52 Cards Chips and Dealer Button", "Hoyles Classic Poker Set", "4243364848293", 46.99, 5);
+            Game prod12 = new Game("Cards Against Humanity", "The Starter Deck", "CAH Starter Deck", "27245337483746", 24.99, 2);
+            Game prod13 = new Game("Hot Potato", "Just an actual baked potato", "Hot Potato Game", "4747473983983", 1.79, 1);
+            Toy prod14 = new Toy("Pikachu Plush", "14 inch plush Pikachu", "Pika Pika Pakachu", "47438347282374", 24.67, 5);
+            Toy prod15 = new Toy("Batman Bobblehead", "4 inch Batman Begins Bobblehead", "BatBobble", "464247842848293", 19.99, 7);
+            Toy prod16 = new Toy("Superman 2 Hero", "Classic AF with opposable thumbs", "Superman action", "23435454746", 27.99, 5);
+            Toy prod17 = new Toy("Amzng Spiderman Figure", "Classic AF with 385 feet of web", "Amazing Spiderman", "247477373", 9.99, 3);
+            List<Products> products = new List<Products>() { prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12, prod13, prod14, prod15, prod16, prod17 };
+            return products;
+        }
+        private static string ShoppingLoop(List<Products> products, List<Cart> cart, string Continue)
+        {//allows user to select item and quantity to purchase and loops until user requst
+            while (Continue == "y")
+            {
+                PrintInfo(products);
+
+                Console.WriteLine($"What item would you like to purchase? (1-{products.Count()})");
+                int ChosenItem = Validators.ValidateInt(Console.ReadLine());
+                ChosenItem = Validators.IsProductOption(products, ChosenItem);
+
+                PrintHeadersOne();
+                products[ChosenItem - 1].PrintInfo1();
+
+                Console.WriteLine();
+                Console.WriteLine($"How many would you like to buy? (0-{products[ChosenItem - 1].Quantity})");
+                int HowManyBought = Validators.ValidateInt(Console.ReadLine());
+                HowManyBought = Validators.IsQuantityAvailable(HowManyBought, products, ChosenItem);
+
+                products[ChosenItem - 1].Quantity = products[ChosenItem - 1].Quantity - HowManyBought;
+                cart[ChosenItem - 1].Quantity = cart[ChosenItem - 1].Quantity + HowManyBought;
+
+                PrintCart(cart);
+
+                Console.WriteLine("Would you like to continue shopping? (y/n)");
+                Continue = Validators.ValidateString(Console.ReadLine());
+                Continue = Validators.YesOrNo(Continue);
+            }
+            Console.Clear();
+            return Continue;
+        }
+
+        private static string CartLoop(List<Checkout> checkout, string remove)
+        {//allows user to remove items/quantity from cart and loops until user request
+            while (remove == "y")
+            {
+                Console.WriteLine($"What item would you like removed? (1-{checkout.Count()})");
+                int ChosenRemove = Validators.ValidateInt(Console.ReadLine());
+                ChosenRemove = Validators.IsCartOption(ChosenRemove, checkout);
+
+                Cart.PrintHeadersR();
+                checkout[ChosenRemove - 1].PrintCheckout();
+                Console.WriteLine();
+                Console.WriteLine($"How many would you like to remove? (0-{checkout[ChosenRemove - 1].Quantity})");
+                int NumberRemoved = Validators.ValidateInt(Console.ReadLine());
+                NumberRemoved = Validators.IsQuantityAvailable2(NumberRemoved, checkout, ChosenRemove);
+
+                checkout[ChosenRemove - 1].Quantity = checkout[ChosenRemove - 1].Quantity - NumberRemoved;
+
+                PrintCheckout(checkout);
+                Console.WriteLine();
+
+                Console.WriteLine("Would you like to remove more items from your cart? (y/n)");
+                string RemoveMore = Validators.ValidateString(Console.ReadLine());
+                remove = Validators.YesOrNo(RemoveMore);
+            }
+
+            return remove;
+        }
+        private static void Checkout(double Total)
+        {//takes and verifies user payment information
             Console.WriteLine("How would you like to pay? (cash/check/credit)");
             string PaymentOption = Validators.ValidateString(Console.ReadLine());
             PaymentOption = Validators.IsPayOption(PaymentOption);
@@ -157,74 +227,15 @@ namespace MidtermProjects
             Console.ReadKey();
         }
 
-        private static string ShoppingLoop(List<Products> products, List<Cart> cart, string Continue)
-        {
-            while (Continue == "y")
-            {
-                PrintInfo(products);
-
-                Console.WriteLine($"What item would you like to purchase? (1-{products.Count()})");
-                int ChosenItem = Validators.ValidateInt(Console.ReadLine());
-                ChosenItem = Validators.IsProductOption(products, ChosenItem);
-
-                PrintHeadersOne();
-                products[ChosenItem - 1].PrintInfo1();
-
-                Console.WriteLine();
-                Console.WriteLine($"How many would you like to buy? (0-{products[ChosenItem - 1].Quantity})");
-                int HowManyBought = Validators.ValidateInt(Console.ReadLine());
-                HowManyBought = Validators.IsQuantityAvailable(HowManyBought, products, ChosenItem);
-
-                products[ChosenItem - 1].Quantity = products[ChosenItem - 1].Quantity - HowManyBought;
-                cart[ChosenItem - 1].Quantity = cart[ChosenItem - 1].Quantity + HowManyBought;
-
-                PrintCart(cart);
-
-                Console.WriteLine("Would you like to continue shopping? (y/n)");
-                Continue = Validators.ValidateString(Console.ReadLine());
-                Continue = Validators.YesOrNo(Continue);
-            }
-            Console.Clear();
-            return Continue;
-        }
-
-        private static string CartLoop(List<Checkout> checkout, string remove)
-        {
-            while (remove == "y")
-            {
-                Console.WriteLine($"What item would you like removed? (1-{checkout.Count()})");
-                int ChosenRemove = Validators.ValidateInt(Console.ReadLine());
-                ChosenRemove = Validators.IsCartOption(ChosenRemove, checkout);
-
-                Cart.PrintHeadersR();
-                checkout[ChosenRemove - 1].PrintCheckout();
-                Console.WriteLine();
-                Console.WriteLine($"How many would you like to remove? (0-{checkout[ChosenRemove - 1].Quantity})");
-                int NumberRemoved = Validators.ValidateInt(Console.ReadLine());
-                NumberRemoved = Validators.IsQuantityAvailable2(NumberRemoved, checkout, ChosenRemove);
-
-                checkout[ChosenRemove - 1].Quantity = checkout[ChosenRemove - 1].Quantity - NumberRemoved;
-
-                PrintCheckout(checkout);
-                Console.WriteLine();
-
-                Console.WriteLine("Would you like to remove more items from your cart? (y/n)");
-                string RemoveMore = Validators.ValidateString(Console.ReadLine());
-                remove = Validators.YesOrNo(RemoveMore);
-            }
-
-            return remove;
-        }
-
         private static void EndProgram()
-        {
+        {//shows user shopping session has ended
             Console.WriteLine();
             Console.WriteLine("Thank you for shopping at GC Comics!");
             Console.WriteLine("Your receipt has been printed to receipt.txt");
         }
 
         private static void PrintFinalCheckout(List<Checkout> checkout, double SubTotal, double Tax, double Total)
-        {
+        {//prints final cart and totals to user
             Console.Clear();
             PrintCheckout(checkout);
             Console.WriteLine($"SubTotal ----- ${SubTotal}");
@@ -235,7 +246,7 @@ namespace MidtermProjects
         }
 
         private static void Totals(List<Checkout> checkout, out double SubTotal, out double Tax, out double Total)
-        {
+        {//calculates totals based on final checkout list
             SubTotal = 0;
             foreach (Checkout c in checkout)
             {
@@ -246,7 +257,7 @@ namespace MidtermProjects
         }
 
         private static List<Checkout> InstantiateCheckout(List<Cart> cart)
-        {
+        {//instantiates checkout list for all user purchased items
             List<Checkout> checkout = new List<Checkout>();
             foreach (Cart c in cart)
             {
@@ -260,28 +271,6 @@ namespace MidtermProjects
             return checkout;
         }
 
-        private static List<Products> InstantiateProductList()
-        {
-            Book prod1 = new Book("Venom meets Carnage", "volume 1 issue 12", "Venom\'s Revenge", "234535", 5.99, 3);
-            Book prod2 = new Book("Begnining of Wolverine", "Volume 1 issue 1", "Wolverine Genesis", "464848293", 6.99, 5);
-            Book prod3 = new Book("Tacos and Mercs", "Volume 3 issue 24", "Deadpool lives", "2737483746", 11.99, 6);
-            Book prod4 = new Book("Amazing Spider-Man #3", "Volume 4 issue 3", "Mavel Spider Man", "47477444774", 3.99, 9);
-            Book prod5 = new Book("Captain America #1", "Volume 3, issue 1", "Captain America is America", "4747755", 3.99, 9);
-            Book prod6 = new Book("The Joker vs. IronMan", "Volume never", "Universes Collide", "66675748", 12.99, 10);
-            Book prod7 = new Book("Fantastic Four", "Episode 34", "The Thing Likes Rock Music", "45555555", 3.99, 4);
-            Book prod8 = new Book("Robo Cop", "Episode 313", "The Coolest Superhero from Detroit", "313131313", 3.13, 13);
-            Book prod9 = new Book("Spinal Tap", "Episode 11", "This One Goes to Eleven", "11111111111", 11.00, 11);
-            Game prod10 = new Game("UNO", "No description here", "UNO Classic", "234234234535", 6.99, 6);
-            Game prod11 = new Game("Poker Set", "52 Cards Chips and Dealer Button", "Hoyles Classic Poker Set", "4243364848293", 46.99, 5);
-            Game prod12 = new Game("Cards Against Humanity", "The Starter Deck", "CAH Starter Deck", "27245337483746", 24.99, 2);
-            Game prod13 = new Game("Hot Potato", "Just an actual baked potato", "Hot Potato Game", "4747473983983", 1.79, 1);
-            Toy prod14 = new Toy("Pikachu Plush", "14 inch plush Pikachu", "Pika Pika Pakachu", "47438347282374", 24.67, 5);
-            Toy prod15 = new Toy("Batman Bobblehead", "4 inch Batman Begins Bobblehead", "BatBobble", "464247842848293", 19.99, 7);
-            Toy prod16 = new Toy("Superman 2 Hero", "Classic AF with opposable thumbs", "Superman action", "23435454746", 27.99, 5);
-            Toy prod17 = new Toy("Amzng Spiderman Figure", "Classic AF with 385 feet of web", "Amazing Spiderman", "247477373", 9.99, 3);
-            List<Products> products = new List<Products>() { prod1, prod2, prod3, prod4, prod5, prod6, prod7, prod8, prod9, prod10, prod11, prod12, prod13, prod14, prod15, prod16, prod17 };
-            return products;
-        }
         public static void PrintHeaders()
         {
             Console.Write("#".PadRight(4));
@@ -326,7 +315,7 @@ namespace MidtermProjects
         }
 
         public static void PrintInfo(List<Products> products)
-        {
+        {//Prints products available
             PrintHeaders();
             int x = 1;
             foreach (Products p in products)
@@ -339,7 +328,7 @@ namespace MidtermProjects
             PrintCloser();
         }
         private static List<Cart> InstantiateCartList()
-        {
+        {//instantiates cart to reflect products
             Cart cart1 = new Cart("Venom meets Carnage", 5.99, 0);
             Cart cart2 = new Cart("Beginning of Wolverine", 6.99, 0);
             Cart cart3 = new Cart("Tacos and Mercs", 11.99, 0);
@@ -375,7 +364,7 @@ namespace MidtermProjects
             Console.WriteLine("==================");
         }
         public static void PrintCheckout(List<Checkout> checkout)
-        {
+        {//prints active cart to usser
             Console.WriteLine("======Cart-Checkout=======");
             Cart.PrintHeadersC();
             int x = 1;
@@ -388,8 +377,19 @@ namespace MidtermProjects
             Console.WriteLine("===========================");
             Console.WriteLine();
         }
+        private static void ClearCart(List<Cart> cart, List<Checkout> checkout)
+        {//clears all cart/checkout quantities to 0 to re-run program
+            foreach (Cart c in cart)
+            {
+                c.Quantity = 0;
+            }
+            foreach (Checkout c in checkout)
+            {
+                c.Quantity = 0;
+            }
+        }
         private static void PrintReceipt(List<Checkout> checkout, double SubTotal, double Tax, double Total)
-        {
+        {//writes checkout to .txt file
             StreamWriter wr = new StreamWriter("../../Receipt.txt", false);
 
             wr.WriteLine("Thank you for shopping at GC Comics!");
@@ -410,7 +410,9 @@ namespace MidtermProjects
                 wr.Write($"{c.Price}".PadRight(13));
                 wr.WriteLine($"{c.Quantity}");
             }
-
+            wr.Write("====".PadRight(30));
+            wr.Write("=====".PadRight(13));
+            wr.WriteLine("========");
 
             wr.WriteLine($"SubTotal ---------- ${SubTotal}");
             wr.WriteLine($"Tax --------------- ${Tax}");
@@ -419,6 +421,105 @@ namespace MidtermProjects
             wr.Close();
 
             //PrintFile("../../Receipt.txt");
+        }
+        private static string ShopAgain()
+        {//allows the user to begin shopping experience again
+            string ReRunProgram;
+            Console.WriteLine("Would you like to shop again? (y/n)");
+            ReRunProgram = Validators.ValidateString(Console.ReadLine());
+            ReRunProgram = Validators.YesOrNo(ReRunProgram);
+            Console.Clear();
+            return ReRunProgram;
+        }
+        private static void ReSupplyLoop(List<Products> products, List<Cart> cart)
+        {//allows user to add objects to products and loopd unitl user request
+            Console.WriteLine("Are you supplying any items (y/n)");
+            string Supplier = Validators.ValidateString(Console.ReadLine());
+            Supplier = Validators.YesOrNo(Supplier);
+
+            string SupplyContinue;
+            if (Supplier == "y")
+            {
+                SupplyContinue = "y";
+            }
+            else
+            {
+                SupplyContinue = "n";
+            }
+            while (SupplyContinue == "y")
+            {
+                if (Supplier == "y")
+                {
+                    PrintInfo(products);
+                    Console.WriteLine();
+                    Console.WriteLine($"What item are you resupplying? (1 - {products.Count}) or type {products.Count + 1} to add new item");
+                    int SupplyItem = Validators.ValidateInt(Console.ReadLine());
+                    SupplyItem = Validators.IsSupplyOption(SupplyItem, products);
+
+                    if (SupplyItem == products.Count + 1)
+                    {
+                        string NewName, NewDescription, NewTitle;
+                        double NewPrice;
+                        int NewQuantity;
+                        TakeNewInput(out NewName, out NewDescription, out NewTitle, out NewPrice, out NewQuantity);
+
+                        AddNewProduct(products, NewName, NewDescription, NewTitle, NewPrice, NewQuantity);
+                        AddNewCart(cart, NewName, NewPrice);
+                    }
+                    else
+                    {
+                        PrintHeadersOne();
+                        products[SupplyItem - 1].PrintInfo1();
+                        Console.WriteLine();
+                        Console.WriteLine("How many are you adding to store? (Max 15)");
+                        int ReSupplyQuant = Validators.ValidateInt(Console.ReadLine());
+                        ReSupplyQuant = Validators.IsReSupplyOption(ReSupplyQuant, products[SupplyItem - 1]);
+
+                        products[SupplyItem - 1].Quantity = products[SupplyItem - 1].Quantity + ReSupplyQuant;
+                    }
+                }
+                Console.WriteLine("Would you like to add more items? (y/n)");
+                SupplyContinue = Validators.ValidateString(Console.ReadLine());
+                SupplyContinue = Validators.YesOrNo(SupplyContinue);
+            }
+            Console.Clear();
+        }
+        private static void AddNewCart(List<Cart> cart, string NewName, double NewPrice)
+        {// adds obj to cart
+            Cart newcart = new Cart();
+            newcart.Name = NewName;
+            newcart.Price = Math.Round(NewPrice, 2);
+            newcart.Quantity = 0;
+            cart.Add(newcart);
+        }
+
+        private static void AddNewProduct(List<Products> products, string NewName, string NewDescription, string NewTitle, double NewPrice, int NewQuantity)
+        {//adds obj to products
+            Products newprod = new Products();
+            newprod.NAME = NewName;
+            newprod.Description = NewDescription;
+            newprod.Title = NewTitle;
+            newprod.Price = Math.Round(NewPrice, 2);
+            newprod.Quantity = NewQuantity;
+            products.Add(newprod);
+        }
+        private static void TakeNewInput(out string NewName, out string NewDescription, out string NewTitle, out double NewPrice, out int NewQuantity)
+        {//takes and validates supply product category
+            Console.WriteLine("What is the product Name?");
+            NewName = Validators.ValidateString(Console.ReadLine());
+            NewName = Validators.IsRealInput(NewName);
+            Console.WriteLine("What is the product Description?");
+            NewDescription = Validators.ValidateString(Console.ReadLine());
+            NewDescription = Validators.IsRealInput(NewDescription);
+            Console.WriteLine("What is the product Title?");
+            NewTitle = Validators.ValidateString(Console.ReadLine());
+            NewTitle = Validators.IsRealInput(NewTitle);
+            Console.WriteLine("What is the product's Price?");
+            NewPrice = Validators.ValidateDouble(Console.ReadLine());
+            NewPrice = Validators.IsRealInput(NewPrice);
+            Console.WriteLine("How many are you adding to store? (Max 15)");
+            NewQuantity = Validators.ValidateInt(Console.ReadLine());
+            NewQuantity = Validators.IsUnderMax(NewQuantity);
         }
 
     }

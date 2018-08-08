@@ -26,26 +26,6 @@ namespace MidtermProjects
                 return "-1";
             }
         }
-        public static string IsOption(string UserInput)
-        {// loops until user selects available category
-            while (UserInput != "toys" && UserInput != "toy" && UserInput != "books" && UserInput != "book" && UserInput != "games" && UserInput != "game")
-            {
-                Console.WriteLine("Please select a valid category (Toys/Books/Games)");
-                UserInput = ValidateString(Console.ReadLine());
-            }
-            if (UserInput == "toys" || UserInput == "toy")
-            {
-                return "toys";
-            }
-            else if (UserInput == "books" || UserInput == "book")
-            {
-                return "books";
-            }
-            else
-            {
-                return "games";
-            }
-        }
         public static int ValidateInt(string UserInput1)
         {//ensures userinput doesn't break code
             try
@@ -136,13 +116,78 @@ namespace MidtermProjects
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
-                return 0;
+                return -1;
             }
             catch (Exception f)
             {
                 Console.WriteLine(f.Message);
-                return 0;
+                return -1;
             }
+        }
+        public static string IsOption(string UserInput)
+        {// loops until user selects available category
+            while (UserInput != "toys" && UserInput != "toy" && UserInput != "books" && UserInput != "book" && UserInput != "games" && UserInput != "game")
+            {
+                Console.WriteLine("Please select a valid category (Toys/Books/Games)");
+                UserInput = ValidateString(Console.ReadLine());
+            }
+            if (UserInput == "toys" || UserInput == "toy")
+            {
+                return "toys";
+            }
+            else if (UserInput == "books" || UserInput == "book")
+            {
+                return "books";
+            }
+            else
+            {
+                return "games";
+            }
+        }
+        public static int IsSupplyOption(int UserInput, List<Products> product)
+        {//ensures user selects an available object
+            while (UserInput < 1 || UserInput > product.Count()+1)
+            {
+                Console.WriteLine("Please select an available option");
+                UserInput = ValidateInt(Console.ReadLine());
+            }
+            return UserInput;
+        }
+        public static int IsReSupplyOption(int UserInput, Products p)
+        {//ensures user selects an available quantity
+            while (p.Quantity + UserInput > 15 || UserInput < 0)
+            {
+                Console.WriteLine("Please select an available quantity (Max 15 total)");
+                UserInput = ValidateInt(Console.ReadLine());
+            }
+            return UserInput;
+        }
+        public static int IsUnderMax(int UserInput)
+        {//ensures user selects an available quantity
+            while (UserInput < 0 || UserInput > 15)
+            {
+                Console.WriteLine("Please select an available quantity (Max 15)");
+                UserInput = ValidateInt(Console.ReadLine());
+            }
+            return UserInput;
+        }
+        public static double IsRealInput(double UserInput)
+        {//ensures user enters an actual price
+            while (UserInput <= 0)
+            {
+                Console.WriteLine("Please enter an actual price");
+                UserInput = ValidateDouble(Console.ReadLine());
+            }
+            return UserInput;
+        }
+        public static string IsRealInput(string UserInput)
+        {//ensures user enters an actual price
+            while (UserInput == "-1")
+            {
+                Console.WriteLine("Couldn't read that - Please try different wording");
+                UserInput = ValidateString(Console.ReadLine());
+            }
+            return UserInput;
         }
     }
 }
