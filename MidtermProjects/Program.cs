@@ -12,6 +12,9 @@ namespace MidtermProjects
     {
         static void Main(string[] args)
         {
+            StreamWriter wr = new StreamWriter("../../Receipt.txt", false);
+            wr.Close(); //clears receipt from last shopping session
+
             List<Products> products = new List<Products>();
             List<Cart> cart = new List<Cart>();
 
@@ -425,7 +428,7 @@ namespace MidtermProjects
             wr.WriteLine($"Tax --------------- ${Tax}");
             wr.WriteLine($"Total ------------- ${Total}");
             wr.WriteLine();
-
+            
             wr.WriteLine(DateTime.Now);
             wr.WriteLine();
 
